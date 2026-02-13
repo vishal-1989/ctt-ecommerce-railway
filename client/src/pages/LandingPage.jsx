@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 
 function LandingPage() {
     const deploymentId = import.meta.env.VITE_DEPLOYMENT_ID;
-    const location = useLocation();
     console.log(deploymentId)
   return (
     <div className="landing-container">
