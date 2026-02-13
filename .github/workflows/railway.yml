@@ -8,10 +8,17 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    outputs:
+      deployment_guid: ${{ steps.guid.outputs.deployment_guid }}
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      # 2️⃣ Generate Deployment GUID
+      - name: Generate GUID
+        id: guid
+        run: echo "deployment_guid=${{ github.run_number }}-${{ github.sha }}" >> $GITHUB_OUTPUT
 
       # Install Node
       - name: Setup Node.js
@@ -40,3 +47,4 @@ jobs:
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
           RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
+          VITE_DEPLOYMENT_ID: ${{ env.deployment_guid }}
