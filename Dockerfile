@@ -7,7 +7,7 @@ COPY client/package*.json ./client/
 COPY server/package*.json ./server/
 COPY package*.json ./
 
-ARG VITE_DEPLOYMENT_ID
+ARG VITE_DEPLOYMENT_ID=HARDCODE_TEST
 ENV VITE_DEPLOYMENT_ID=${VITE_DEPLOYMENT_ID}
 
 RUN echo ">>> BUILD DEPLOYMENT ID = $VITE_DEPLOYMENT_ID"
