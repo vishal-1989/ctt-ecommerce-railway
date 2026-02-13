@@ -10,6 +10,8 @@ COPY package*.json ./
 ARG VITE_DEPLOYMENT_ID
 ENV VITE_DEPLOYMENT_ID=${VITE_DEPLOYMENT_ID}
 
+RUN echo ">>> BUILD DEPLOYMENT ID = $VITE_DEPLOYMENT_ID"
+
 # Install dependencies
 RUN npm install
 RUN cd client && npm install

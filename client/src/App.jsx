@@ -9,6 +9,7 @@ import Cart from './pages/Cart';
 function AppContent({ user, onLogin, onLogout, cart, addToCart, updateQuantity, removeFromCart, getCartItemCount }) {
   const deploymentId = import.meta.env.VITE_DEPLOYMENT_ID;
   const location = useLocation();
+  console.log(deploymentId)
 
   // Show header only on shop and cart pages
   const showHeader = ['/shop', '/cart'].includes(location.pathname);
