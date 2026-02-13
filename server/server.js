@@ -18,7 +18,7 @@ const products = [
 ];
 
 // Serve React build
-app.use(express.static(path.join(__dirname, "../client/dist")));
+app.use(express.static(path.join(__dirname, "client/dist")));
 
 // Product search API
 app.get("/products", (req, res) => {
@@ -31,7 +31,7 @@ app.get("/products", (req, res) => {
 
 // SPA fallback (important)
 app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../client/dist/index.html"));
+    res.sendFile(path.join(__dirname, "client/dist/index.html"));
 });
 
 app.listen(PORT, () => {
