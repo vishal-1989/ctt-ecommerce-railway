@@ -16,9 +16,6 @@ function AppContent({ user, onLogin, onLogout, cart, addToCart, updateQuantity, 
 
   return (
     <>
-      <main>
-        <center>Deployment Id: {deploymentId}</center>
-      </main>
       {showHeader && (
         <Header user={user} onLogout={onLogout} cartCount={getCartItemCount()} />
       )}

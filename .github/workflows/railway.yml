@@ -37,7 +37,7 @@ jobs:
       - name: Install Railway CLI
         run: npm install -g @railway/cli
 
-      - name: Set Railway build arg
+      - name: Set Railway build arg and Deploy
         run: |
           railway variables set \
             VITE_DEPLOYMENT_ID=${{ steps.guid.outputs.deployment_guid }} \
@@ -49,13 +49,13 @@ jobs:
 
 
       # Deploy to Railway
-      - name: Deploy to Railway
-        run: |
-          railway up \
-            --service ${{ secrets.RAILWAY_SERVICE_ID }} \
-            --environment production \
-            --message "Deploy"
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-          RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
-          VITE_DEPLOYMENT_ID: ${{ steps.guid.outputs.deployment_guid }}
+#      - name: Deploy to Railway
+#        run: |
+#          railway up \
+#            --service ${{ secrets.RAILWAY_SERVICE_ID }} \
+#            --environment production \
+#            --message "Deploy"
+#        env:
+#          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+#          RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
+#          VITE_DEPLOYMENT_ID: ${{ steps.guid.outputs.deployment_guid }}
