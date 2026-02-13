@@ -1,6 +1,9 @@
 import { Link } from 'react-router-dom';
 
 function LandingPage() {
+    const deploymentId = import.meta.env.VITE_DEPLOYMENT_ID;
+    const location = useLocation();
+    console.log(deploymentId)
   return (
     <div className="landing-container">
       <nav className="landing-nav">
@@ -127,6 +130,7 @@ function LandingPage() {
         </div>
         <div className="footer-bottom">
           <p>&copy; 2026 CTT App. All rights reserved. | E-Commerce Platform</p>
+          <p>&copy; Build Version: {deploymentId}</p>
         </div>
       </footer>
     </div>
