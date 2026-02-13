@@ -10,7 +10,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Go UP from /server to project root
-const rootDir = path.join(__dirname, '..');
+const rootDir = path.join(__dirname);
 
 // Dummy product data
 const products = [
