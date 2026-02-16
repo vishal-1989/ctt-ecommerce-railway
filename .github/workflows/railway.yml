@@ -5,7 +5,7 @@ on:
     branches: [ main ]
 
 jobs:
-  ci-build:
+  build-and-test:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -30,7 +30,7 @@ jobs:
           cache-dependency-path: client/package-lock.json
 
       - name: Install dependencies
-        run: npm ci-build
+        run: npm ci
 
       - name: Run tests
         run: npm test
