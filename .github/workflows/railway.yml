@@ -81,7 +81,7 @@ jobs:
       - name: Set Railway build arg and Deploy
         run: |
           railway variables set \
-            VITE_DEPLOYMENT_ID=${{ needs.build-and-test.outputs.deployment_guid }} \
+            VITE_DEPLOYMENT_ID=${{ needs.push-image.outputs.deployment_guid }} \
             --service ${{ secrets.RAILWAY_SERVICE_ID }} \
             --environment production
         env:
