@@ -60,7 +60,7 @@ jobs:
             -f app/Dockerfile \
             -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:${{ needs.build-and-test.outputs.deployment_guid }} \
             -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:latest \
-            app
+            .
 
       # 5️⃣ Push Docker Image
       - name: Push Image
