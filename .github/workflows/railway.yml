@@ -73,6 +73,7 @@ jobs:
   deploy-staging:
     runs-on: ubuntu-latest
     needs: push-image
+    environment: Staging
     steps:
       # Install Railway CLI
       - name: Install Railway CLI
@@ -82,11 +83,31 @@ jobs:
         run: |
           railway variables set \
             VITE_DEPLOYMENT_ID=${{ needs.push-image.outputs.deployment_guid }} \
-            --service ${{ secrets.RAILWAY_SERVICE_ID }} \
+            --service ${{ secrets.RAILWAY_SERVICE_ID_STAGING }} \
+            --environment staging
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
+
+  deploy-production:
+    runs-on: ubuntu-latest
+    needs: push-image
+    environment: vigilant-sparkle / production
+    steps:
+      # Install Railway CLI
+      - name: Install Railway CLI
+        run: npm install -g @railway/cli
+
+      - name: Set Railway build arg and Deploy
+        run: |
+          railway variables set \
+            VITE_DEPLOYMENT_ID=${{ needs.push-image.outputs.deployment_guid }} \
+            --service ${{ secrets.RAILWAY_SERVICE_ID_PRODUCTION }} \
             --environment production
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
           RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
+
 
 #  deploy-production:
 #    runs-on: ubuntu-latest
