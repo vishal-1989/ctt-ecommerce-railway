@@ -38,6 +38,13 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
+      - name: Build React (Vite)
+        run: |
+          cd client
+          npm install
+          npm install -D vitest
+          npm run build
+
       - name: Run Tests
         run: npm test
 
