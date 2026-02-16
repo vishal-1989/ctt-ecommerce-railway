@@ -57,7 +57,6 @@ jobs:
         run: |
           docker build \
             --build-arg DEPLOYMENT_GUID=${{ needs.build-and-test.outputs.deployment_guid }} \
-            -f Dockerfile \
             -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:${{ needs.build-and-test.outputs.deployment_guid }} \
             -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:latest \
             .
