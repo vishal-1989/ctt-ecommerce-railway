@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     outputs:
       deployment_guid: ${{ steps.guid.outputs.deployment_guid }}
@@ -31,21 +31,78 @@ jobs:
         run: |
           cd client
           npm install
+          npm install -D vitest
           npm run build
 
-      # Install Railway CLI
-      - name: Install Railway CLI
-        run: npm install -g @railway/cli
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Run Tests
+        run: npm test
 
-      - name: Set Railway build arg and Deploy
-        run: |
-          railway variables set \
-            VITE_DEPLOYMENT_ID=${{ steps.guid.outputs.deployment_guid }} \
-            --service ${{ secrets.RAILWAY_SERVICE_ID }} \
-            --environment production
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-          RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
+#  push-image:
+#    runs-on: ubuntu-latest
+#    needs: test
+#    steps:
+#      #3️⃣ Login to Docker Hub
+#      - name: Docker Login
+#        uses: docker/login-action@v3
+#        with:
+#          username: ${{ secrets.DOCKERHUB_USERNAME }}
+#          password: ${{ secrets.DOCKERHUB_TOKEN }}
+#
+#      # 4️⃣ Build Docker Image
+#      - name: Build Image
+#        run: |
+#          docker build \
+#            --build-arg DEPLOYMENT_GUID=${{ steps.guid.outputs.deployment_guid }} \
+#            -f app/Dockerfile \
+#            -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:${{ steps.guid.outputs.deployment_guid }} \
+#            -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:latest \
+#            app
+#
+#      # 5️⃣ Push Docker Image
+#      - name: Push Image
+#        run: |
+#          docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:${{ steps.guid.outputs.deployment_guid }}
+#          docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:latest
+#
+#  deploy-staging:
+#    runs-on: ubuntu-latest
+#    needs: push-image
+#    steps:
+#      # Install Railway CLI
+#      - name: Install Railway CLI
+#        run: npm install -g @railway/cli
+#
+#      - name: Set Railway build arg and Deploy
+#        run: |
+#          railway variables set \
+#            VITE_DEPLOYMENT_ID=${{ steps.guid.outputs.deployment_guid }} \
+#            --service ${{ secrets.RAILWAY_SERVICE_ID }} \
+#            --environment production
+#        env:
+#          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+#          RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
+#
+#  deploy-production:
+#    runs-on: ubuntu-latest
+#    needs: deploy-staging
+#    steps:
+#      # Install Railway CLI
+#      - name: Install Railway CLI
+#        run: npm install -g @railway/cli
+#
+#      - name: Set Railway build arg and Deploy
+#        run: |
+#          railway variables set \
+#            VITE_DEPLOYMENT_ID=${{ steps.guid.outputs.deployment_guid }} \
+#            --service ${{ secrets.RAILWAY_SERVICE_ID }} \
+#            --environment production
+#        env:
+#          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+#          RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
 
 
       # Deploy to Railway
