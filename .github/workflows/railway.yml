@@ -198,7 +198,7 @@ jobs:
     needs: push-image
     environment: Staging
     outputs:
-      deployment_guid: ${{ needs.staticanalysis.outputs.deployment_guid }}
+      deployment_guid: ${{ needs.push-image.outputs.deployment_guid }}
     steps:
       - name: Install Railway CLI
         run: npm install -g @railway/cli
@@ -206,7 +206,7 @@ jobs:
       - name: Set Railway build arg and Deploy
         run: |
           railway variables set \
-            VITE_DEPLOYMENT_ID=${{ needs.staticanalysis.outputs.deployment_guid }} \
+            VITE_DEPLOYMENT_ID=${{ needs.push-image.outputs.deployment_guid }} \
             --service ${{ secrets.RAILWAY_SERVICE_ID_STAGING }} \
             --environment staging
         env:
@@ -228,7 +228,7 @@ jobs:
       - name: Set Railway build arg and Deploy
         run: |
           railway variables set \
-            VITE_DEPLOYMENT_ID=${{ needs.push-image.outputs.deployment_guid }} \
+            VITE_DEPLOYMENT_ID=${{ needs.deploy-staging.outputs.deployment_guid }} \
             --service ${{ secrets.RAILWAY_SERVICE_ID_PRODUCTION }} \
             --environment production
         env:
